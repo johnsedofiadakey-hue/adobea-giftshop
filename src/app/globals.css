@@ -1,0 +1,205 @@
+@import "tailwindcss";
+
+:root {
+  /* Theme roles — the only 5 values Settings → Colors & Branding actually edits.
+     `ThemeInjector` (src/components/ThemeInjector.tsx) overrides these at runtime from
+     Firestore `settings.theme`; every family below is *derived* from them via color-mix(),
+     so the whole app recolors from five inputs instead of one per shade. Derived shades are
+     a close approximation of the original hand-tuned palette, not a pixel-exact reproduction
+     of it — expected and fine for a "single base color → auto-generated ramp" system. */
+  /* EA_DUBEA'S GIFT HUB brand brief: White (70%, main background) / Warm Cream (15%,
+     section backgrounds — derived automatically from background+primary via color-mix,
+     see the sand and cream scales below) / Gold (10%, buttons/icons/highlights) /
+     Charcoal (5%, text/headings). No exact brand hex was supplied (the shared logo is
+     black/white), so theme-primary/theme-accent are placeholder gold tones — swap for
+     an exact hex anytime via Admin -> Settings -> Colors & Branding, no code change
+     needed. */
+  --theme-primary: #c9a227;
+  --theme-secondary: #1e1e1e;
+  --theme-accent: #e4b93c;
+  --theme-text: #2a2a2a;
+  --theme-background: #ffffff;
+
+  --background: var(--theme-background);
+  --foreground: var(--theme-text);
+
+  /* Ink — neutral charcoal-plum text scale */
+  --color-ink-950: color-mix(in srgb, var(--theme-text) 90%, black);
+  --color-ink-900: var(--theme-text);
+  --color-ink-800: color-mix(in srgb, var(--theme-text) 85%, white);
+  --color-ink-700: color-mix(in srgb, var(--theme-text) 65%, white);
+  --color-ink-500: color-mix(in srgb, var(--theme-text) 35%, white);
+
+  /* Sand — the "Warm Cream" section-background role from the brand brief, derived as a
+     soft gold-tinted panel scale. Main background stays pure white; these are pastel
+     tints for visual separation only. */
+  --color-sand-50: var(--theme-background);
+  --color-sand-100: color-mix(in srgb, var(--theme-background) 95%, var(--theme-primary));
+  --color-sand-200: color-mix(in srgb, var(--theme-background) 89%, var(--theme-primary));
+  --color-sand-300: color-mix(in srgb, var(--theme-background) 78%, var(--theme-primary));
+
+  /* Forest — the "Charcoal" supporting-role scale (footer, brand-story badge, icon accents). */
+  --color-forest-950: color-mix(in srgb, var(--theme-secondary) 52%, black);
+  --color-forest-900: color-mix(in srgb, var(--theme-secondary) 65%, black);
+  --color-forest-800: color-mix(in srgb, var(--theme-secondary) 78%, black);
+  --color-forest-700: color-mix(in srgb, var(--theme-secondary) 88%, black);
+  --color-forest-600: color-mix(in srgb, var(--theme-secondary) 96%, black);
+  --color-forest-500: var(--theme-secondary);
+
+  /* Cream — gold-tinted off-white, used as light text on dark (footer) and light panels. */
+  --color-cream-50: var(--theme-background);
+  --color-cream-100: color-mix(in srgb, var(--theme-background) 94%, var(--theme-accent));
+  --color-cream-200: color-mix(in srgb, var(--theme-background) 85%, var(--theme-accent));
+
+  /* Amber — the primary CTA color (the brand's Gold). */
+  --color-amber-400: color-mix(in srgb, var(--theme-primary) 75%, white);
+  --color-amber-500: var(--theme-primary);
+  --color-amber-600: color-mix(in srgb, var(--theme-primary) 85%, black);
+  --color-amber-700: color-mix(in srgb, var(--theme-primary) 65%, black);
+
+  /* Clay — a fixed supporting bubblegum-pink tone, not admin-themed (product-art gradients,
+     the Clay color-swatch option). Deliberately outside the 5 theme roles. */
+  --color-clay-500: #ff7aa2;
+  --color-clay-700: #e14f82;
+
+  /* Sunset — high-impact accent only (logo mark, "New" badge) — a brighter gold. */
+  --color-sunset-500: var(--theme-accent);
+  --color-sunset-600: color-mix(in srgb, var(--theme-accent) 85%, black);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-ink-950: var(--color-ink-950);
+  --color-ink-900: var(--color-ink-900);
+  --color-ink-800: var(--color-ink-800);
+  --color-ink-700: var(--color-ink-700);
+  --color-ink-500: var(--color-ink-500);
+
+  --color-sand-50: var(--color-sand-50);
+  --color-sand-100: var(--color-sand-100);
+  --color-sand-200: var(--color-sand-200);
+  --color-sand-300: var(--color-sand-300);
+
+  --color-forest-950: var(--color-forest-950);
+  --color-forest-900: var(--color-forest-900);
+  --color-forest-800: var(--color-forest-800);
+  --color-forest-700: var(--color-forest-700);
+  --color-forest-600: var(--color-forest-600);
+  --color-forest-500: var(--color-forest-500);
+
+  --color-cream-50: var(--color-cream-50);
+  --color-cream-100: var(--color-cream-100);
+  --color-cream-200: var(--color-cream-200);
+
+  --color-amber-400: var(--color-amber-400);
+  --color-amber-500: var(--color-amber-500);
+  --color-amber-600: var(--color-amber-600);
+  --color-amber-700: var(--color-amber-700);
+
+  --color-clay-500: var(--color-clay-500);
+  --color-clay-700: var(--color-clay-700);
+
+  --color-sunset-500: var(--color-sunset-500);
+  --color-sunset-600: var(--color-sunset-600);
+
+  --font-sans: var(--font-inter);
+  --font-display: var(--font-jakarta);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+/* Slow-drifting gradient-mesh blobs — used behind the hero for a "living"
+   background instead of a static gradient. Kept purely CSS so it costs
+   nothing on the main thread. */
+@keyframes drift-a {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(5%, -6%) scale(1.12); }
+}
+@keyframes drift-b {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-6%, 5%) scale(1.06); }
+}
+@keyframes drift-c {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(4%, 6%) scale(0.94); }
+}
+
+.animate-drift-a { animation: drift-a 22s ease-in-out infinite; }
+.animate-drift-b { animation: drift-b 26s ease-in-out infinite; }
+.animate-drift-c { animation: drift-c 19s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-drift-a, .animate-drift-b, .animate-drift-c {
+    animation: none;
+  }
+}
+
+/* Reusable glassmorphism surfaces — real transparency + a diagonal "sheen"
+   highlight (like light catching curved glass) + an inset top-edge glow,
+   not just a flat blurred-white box. Use alongside Tailwind utilities for
+   layout/spacing/radius. */
+.glass {
+  position: relative;
+  background-image: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.5) 0%,
+    rgba(255, 255, 255, 0.16) 55%,
+    rgba(255, 255, 255, 0.05) 100%
+  );
+  backdrop-filter: blur(22px) saturate(180%);
+  -webkit-backdrop-filter: blur(22px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  box-shadow:
+    0 8px 32px rgba(36, 31, 22, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+.glass-amber {
+  background-image: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--color-amber-500) 60%, transparent) 0%,
+    color-mix(in srgb, var(--color-amber-500) 30%, transparent) 100%
+  );
+  backdrop-filter: blur(18px) saturate(160%);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  box-shadow:
+    0 8px 28px color-mix(in srgb, var(--color-amber-700) 25%, transparent),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.glass-forest {
+  background-image: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--color-forest-800) 70%, transparent) 0%,
+    color-mix(in srgb, var(--color-forest-800) 40%, transparent) 100%
+  );
+  backdrop-filter: blur(18px) saturate(160%);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow:
+    0 8px 28px rgba(0, 0, 0, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.22);
+}
+
+/* Custom Brand Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-sand-50);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--theme-secondary);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--theme-accent);
+}
+

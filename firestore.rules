@@ -1,0 +1,86 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function staffData() {
+      return get(/databases/$(database)/documents/staff/$(request.auth.uid)).data;
+    }
+
+    function isActiveStaff() {
+      return isSignedIn()
+        && exists(/databases/$(database)/documents/staff/$(request.auth.uid))
+        && staffData().active == true;
+    }
+
+    function role() {
+      return staffData().role;
+    }
+
+    function isAdmin() { return isActiveStaff() && role() == 'Admin'; }
+    function isSales() { return isActiveStaff() && role() == 'Sales Staff'; }
+    function isInventory() { return isActiveStaff() && role() == 'Inventory Staff'; }
+
+    // Public catalog — the storefront reads these signed out.
+    match /products/{productId} {
+      allow read: if true;
+      allow write: if isAdmin() || isInventory();
+    }
+
+    match /categories/{categoryId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Blog content — public read, admin-only write (marketing copy, same trust
+    // level as Categories).
+    match /posts/{postId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Guest checkout creates orders without being signed in. Staff manage them.
+    // A new order always starts unpaid, at one of two entry points into the status
+    // pipeline: "Pending Review" (packaging requested, needs a staff quote first) or
+    // "Awaiting Payment" (no packaging, total already known, heading straight to
+    // Paystack). Every later transition (payment confirmed, staff advancing the
+    // order) is written server-side via firebase-admin, which bypasses these rules
+    // entirely — so this `create` check is the only gate guest checkout goes through.
+    match /orders/{orderId} {
+      allow create: if request.resource.data.keys().hasAll(
+          ['customerName', 'phone', 'address', 'lines', 'subtotal', 'status', 'createdAt',
+           'recipientName', 'recipientPhone', 'deliveryMethod', 'preferredDate',
+           'deliveryFeePayer', 'packagingRequested', 'total', 'paymentStatus']
+        )
+        && (request.resource.data.status == 'Pending Review'
+            || request.resource.data.status == 'Awaiting Payment')
+        && request.resource.data.paymentStatus == 'unpaid';
+      allow read: if isActiveStaff();
+      allow update: if isAdmin() || isSales();
+      allow delete: if isAdmin();
+    }
+
+    // Any signed-in staff member can read the roster (to resolve their own
+    // role); only Admins manage it.
+    match /staff/{staffId} {
+      allow read: if isSignedIn();
+      allow write: if isAdmin();
+    }
+
+    // Store settings — public read because the storefront itself depends on this doc
+    // (hero copy, promotion banner, theme colors, page content, general contact info are
+    // all read by anonymous visitors on every page load via AdminDataProvider). Only
+    // Admins can write. Real secrets (Paystack/Arkesel/Brevo) are never stored here —
+    // they live only in server env vars (PAYSTACK_SECRET_KEY, ARKESEL_API_KEY,
+    // BREVO_API_KEY) — this doc only ever holds the Paystack *public* key, which is
+    // safe to expose.
+    match /settings/{settingId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+  }
+}

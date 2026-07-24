@@ -1,0 +1,50 @@
+# Firebase App Hosting runtime config.
+# NEXT_PUBLIC_* values are the Firebase client SDK config — not secrets, safe
+# to commit (this is the same config already shipped in every page's HTML).
+# Placeholders below — fill in once a Firebase project exists for this app
+# (Firebase Console → Project Settings → General → Your apps → SDK config).
+#
+# ARKESEL_API_KEY / BREVO_API_KEY / PAYSTACK_SECRET_KEY are intentionally NOT
+# declared here since no real values exist yet — Arkesel/Brevo (see
+# src/app/api/notifications/order-confirmation) no-op without their keys, and
+# Paystack checkout (src/lib/paystack-server.ts) will error without its key.
+# Once real keys exist, set them with `firebase apphosting:secrets:set
+# ARKESEL_API_KEY` (and BREVO_API_KEY, PAYSTACK_SECRET_KEY), then add matching
+# `secret:` entries below. Never commit real key values to this file. Also add
+# `{your-domain}/api/payments/paystack/webhook` as a webhook URL in the
+# Paystack dashboard once a real key/domain exist.
+
+runConfig:
+  minInstances: 0
+
+env:
+  - variable: NEXT_PUBLIC_FIREBASE_API_KEY
+    value: "AIzaSyB5MCmUkPfqvVgevv2IA3sA44DiNkxPRz8"
+    availability:
+      - BUILD
+      - RUNTIME
+  - variable: NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN
+    value: "adubeagiftshop.firebaseapp.com"
+    availability:
+      - BUILD
+      - RUNTIME
+  - variable: NEXT_PUBLIC_FIREBASE_PROJECT_ID
+    value: "adubeagiftshop"
+    availability:
+      - BUILD
+      - RUNTIME
+  - variable: NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET
+    value: "adubeagiftshop.firebasestorage.app"
+    availability:
+      - BUILD
+      - RUNTIME
+  - variable: NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID
+    value: "108660268842"
+    availability:
+      - BUILD
+      - RUNTIME
+  - variable: NEXT_PUBLIC_FIREBASE_APP_ID
+    value: "1:108660268842:web:c86b123d57aba74b4b0853"
+    availability:
+      - BUILD
+      - RUNTIME
