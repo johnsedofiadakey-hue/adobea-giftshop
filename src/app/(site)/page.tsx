@@ -5,6 +5,7 @@ import { ArrowRight, Truck, Gift, Sparkles, Heart } from "lucide-react";
 import { ProductArt } from "@/components/ProductArt";
 import { ProductCard } from "@/components/ProductCard";
 import { CategoryCarousel } from "@/components/CategoryCarousel";
+import { HeroCarousel } from "@/components/HeroCarousel";
 import { KineticHeadline } from "@/components/KineticHeadline";
 import { MagneticButton } from "@/components/MagneticButton";
 import { Newsletter } from "@/components/Newsletter";
@@ -52,6 +53,7 @@ const FEATURES = [
 export default function Home() {
   const { products, categories, orders, settings } = useAdminData();
   const bestSellers = getTopSellers(products, orders, 4);
+  const heroProducts = bestSellers.length > 0 ? bestSellers : products.slice(0, 4);
   const hero = settings.hero;
 
   const { scrollY } = useScroll();
@@ -61,101 +63,7 @@ export default function Home() {
   return (
     <div>
       {/* Hero */}
-      <section className="relative isolate flex min-h-[60vh] items-center overflow-hidden bg-ink-950 sm:min-h-[92vh]">
-        <motion.div style={{ y, opacity }} className="absolute inset-0 h-full w-full">
-          {hero.image ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={hero.image}
-              alt=""
-              className="absolute inset-0 h-full w-full object-cover"
-            />
-          ) : (
-            // No real hero photo uploaded yet (Settings -> Hero & Homepage) — a soft
-            // drifting gold/charcoal gradient stands in rather than 404ing on stock art.
-            <div aria-hidden className="absolute inset-0 overflow-hidden bg-ink-950">
-              <div className="animate-drift-a absolute -left-1/4 -top-1/4 h-[70%] w-[70%] rounded-full bg-amber-500/40 blur-3xl" />
-              <div className="animate-drift-b absolute -right-1/4 top-1/3 h-[60%] w-[60%] rounded-full bg-sunset-500/30 blur-3xl" />
-              <div className="animate-drift-c absolute bottom-0 left-1/3 h-[55%] w-[55%] rounded-full bg-forest-600/25 blur-3xl" />
-            </div>
-          )}
-          <div
-            aria-hidden
-            className="absolute inset-0 bg-gradient-to-b from-ink-950/70 via-ink-950/45 to-ink-950/85"
-          />
-        </motion.div>
-
-        <div className="relative mx-auto flex max-w-4xl flex-col items-center px-6 py-24 text-center">
-            <motion.span
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="glass inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold text-cream-50 shadow-md"
-            >
-              <Gift className="h-4 w-4 text-amber-400" />
-              {hero.badgeText}
-            </motion.span>
-
-            <h1 className="mt-6 font-display text-5xl font-extrabold leading-[1.2] text-cream-50 sm:text-6xl">
-              <KineticHeadline
-                startDelay={0.1}
-                wordClassName="bg-ink-950/30 backdrop-blur-md rounded-xl shadow-lg"
-                segments={[
-                  { text: hero.headline },
-                  ...hero.headlineAccent
-                    .split("\n")
-                    .map((line) => ({ text: line, className: "block text-amber-400" })),
-                ]}
-              />
-            </h1>
-
-            <motion.p
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.5 }}
-              className="mx-auto mt-6 max-w-md text-lg font-medium text-cream-50 drop-shadow-md leading-relaxed"
-            >
-              <span className="box-decoration-clone rounded-xl bg-ink-950/30 px-2 py-1 backdrop-blur-md shadow-md">
-                {hero.subtext}
-              </span>
-            </motion.p>
-
-            <motion.div
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.65 }}
-              className="mt-8 flex flex-wrap items-center justify-center gap-4"
-            >
-              <MagneticButton
-                href={hero.ctaPrimaryHref}
-                className="inline-flex items-center gap-2 rounded-full bg-amber-500 px-6 py-3 font-semibold text-white shadow-xl transition-colors hover:bg-amber-600"
-              >
-                {hero.ctaPrimaryLabel}
-                <ArrowRight className="h-4 w-4" />
-              </MagneticButton>
-              <MagneticButton
-                href={hero.ctaSecondaryHref}
-                className="glass inline-flex items-center gap-2 rounded-full px-6 py-3 font-semibold text-cream-50 shadow-xl transition-colors hover:bg-white/10"
-              >
-                {hero.ctaSecondaryLabel}
-              </MagneticButton>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.8 }}
-              className="mt-10 inline-block rounded-2xl bg-ink-950/30 px-6 py-4 shadow-lg backdrop-blur-md"
-            >
-              <p className="font-display text-3xl font-extrabold text-amber-400 drop-shadow-sm">
-                <CountUp value={hero.statValue} />
-              </p>
-              <p className="text-sm font-medium text-cream-50 drop-shadow-sm">{hero.statLabel}</p>
-            </motion.div>
-        </div>
-
-        <Wave fillClassName="fill-background" className="absolute inset-x-0 bottom-0" />
-      </section>
+      <HeroCarousel products={heroProducts} settings={hero} />
 
       {/* Category carousel */}
       <section className="relative overflow-hidden py-20">
@@ -207,7 +115,7 @@ export default function Home() {
       </section>
 
       {/* Best sellers */}
-      <section className="bg-sand-200 py-20">
+      <section className="bg-sand-100 py-20">
         <div className="mx-auto max-w-7xl px-6">
           <Reveal className="flex flex-wrap items-end justify-between gap-4">
             <div>
@@ -270,15 +178,15 @@ export default function Home() {
                 <Reveal
                   key={feature.title}
                   delay={index * 0.08}
-                  className="glass rounded-2xl p-6"
+                  className="glass rounded-2xl p-6 bg-white/60 border border-sand-200 hover:bg-white transition-colors"
                 >
                   <span
-                    className={`flex h-12 w-12 items-center justify-center rounded-full ${accent}`}
+                    className={`flex h-12 w-12 items-center justify-center rounded-xl bg-amber-500/10 text-amber-600`}
                   >
                     <feature.icon className="h-6 w-6" strokeWidth={1.5} />
                   </span>
-                  <h3 className="mt-4 font-display font-semibold text-ink-900">{card.title}</h3>
-                  <p className="mt-2 text-sm text-ink-700/80">{card.description}</p>
+                  <h3 className="mt-5 font-display text-xl font-semibold text-ink-900">{card.title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-ink-700/90">{card.description}</p>
                 </Reveal>
               );
             })}
@@ -287,13 +195,15 @@ export default function Home() {
       </section>
 
       {/* Brand story */}
-      <section className="bg-sand-200 py-20">
-        <div className="mx-auto grid max-w-6xl gap-12 px-6 lg:grid-cols-2 lg:items-center">
+      <section className="bg-sand-100 py-24">
+        <div className="mx-auto grid max-w-6xl gap-16 px-6 lg:grid-cols-2 lg:items-center">
           <Reveal className="relative">
-            <ProductArt category="curated-packages" className="aspect-4/3 w-full rounded-3xl" />
-            <div className="glass-forest absolute -bottom-5 left-6 flex items-center gap-2 rounded-2xl px-4 py-3 text-sm font-semibold text-cream-50 shadow-lg">
-              <Sparkles className="h-4 w-4 text-amber-400" />
-              Packed With Care
+            <div className="rounded-3xl border-8 border-white shadow-xl overflow-hidden">
+              <ProductArt category="curated-packages" className="aspect-4/3 w-full" />
+            </div>
+            <div className="absolute -bottom-6 -right-6 flex items-center gap-2 rounded-2xl bg-white px-5 py-4 text-sm font-semibold text-ink-900 shadow-xl border border-sand-200">
+              <Sparkles className="h-5 w-5 text-amber-500" />
+              Hand-Packed With Care
             </div>
           </Reveal>
 

@@ -231,10 +231,10 @@ export function ProductDetail({ product }: { product: Product }) {
 
           <div className="mt-6 flex flex-wrap gap-6 text-sm text-ink-700/80">
             <span className="flex items-center gap-2">
-              <Truck className="h-4 w-4 text-amber-600" /> Fast shipping
+              <Truck className="h-4 w-4 text-amber-600" /> Delivery or pickup
             </span>
             <span className="flex items-center gap-2">
-              <CheckCircle2 className="h-4 w-4 text-forest-700" /> Clean-burning ingredients
+              <CheckCircle2 className="h-4 w-4 text-forest-700" /> Gift-ready packaging
             </span>
           </div>
 

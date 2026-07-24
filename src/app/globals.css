@@ -23,48 +23,45 @@
   --background: var(--theme-background);
   --foreground: var(--theme-text);
 
-  /* Ink — neutral charcoal-plum text scale */
-  --color-ink-950: color-mix(in srgb, var(--theme-text) 90%, black);
-  --color-ink-900: var(--theme-text);
-  --color-ink-800: color-mix(in srgb, var(--theme-text) 85%, white);
-  --color-ink-700: color-mix(in srgb, var(--theme-text) 65%, white);
-  --color-ink-500: color-mix(in srgb, var(--theme-text) 35%, white);
+  /* Ink — neutral charcoal text scale */
+  --color-ink-950: #1a1a1a;
+  --color-ink-900: #2a2a2a;
+  --color-ink-800: #3a3a3a;
+  --color-ink-700: #555555;
+  --color-ink-500: #888888;
 
-  /* Sand — the "Warm Cream" section-background role from the brand brief, derived as a
-     soft gold-tinted panel scale. Main background stays pure white; these are pastel
-     tints for visual separation only. */
-  --color-sand-50: var(--theme-background);
-  --color-sand-100: color-mix(in srgb, var(--theme-background) 95%, var(--theme-primary));
-  --color-sand-200: color-mix(in srgb, var(--theme-background) 89%, var(--theme-primary));
-  --color-sand-300: color-mix(in srgb, var(--theme-background) 78%, var(--theme-primary));
+  /* Sand — Warm Cream section backgrounds */
+  --color-sand-50: #fcfbfa;
+  --color-sand-100: #faf8f5;
+  --color-sand-200: #f4f0e6;
+  --color-sand-300: #e8e0d0;
 
-  /* Forest — the "Charcoal" supporting-role scale (footer, brand-story badge, icon accents). */
-  --color-forest-950: color-mix(in srgb, var(--theme-secondary) 52%, black);
-  --color-forest-900: color-mix(in srgb, var(--theme-secondary) 65%, black);
-  --color-forest-800: color-mix(in srgb, var(--theme-secondary) 78%, black);
-  --color-forest-700: color-mix(in srgb, var(--theme-secondary) 88%, black);
-  --color-forest-600: color-mix(in srgb, var(--theme-secondary) 96%, black);
-  --color-forest-500: var(--theme-secondary);
+  /* Forest — redefined as deeper neutral/taupe accents for a boutique feel */
+  --color-forest-950: #2b2824;
+  --color-forest-900: #3d3934;
+  --color-forest-800: #504c47;
+  --color-forest-700: #6b6761;
+  --color-forest-600: #858079;
+  --color-forest-500: #a39d96;
 
-  /* Cream — gold-tinted off-white, used as light text on dark (footer) and light panels. */
-  --color-cream-50: var(--theme-background);
-  --color-cream-100: color-mix(in srgb, var(--theme-background) 94%, var(--theme-accent));
-  --color-cream-200: color-mix(in srgb, var(--theme-background) 85%, var(--theme-accent));
+  /* Cream — crisp white to cream transitions */
+  --color-cream-50: #ffffff;
+  --color-cream-100: #fefdfb;
+  --color-cream-200: #fdfaf6;
 
-  /* Amber — the primary CTA color (the brand's Gold). */
-  --color-amber-400: color-mix(in srgb, var(--theme-primary) 75%, white);
-  --color-amber-500: var(--theme-primary);
-  --color-amber-600: color-mix(in srgb, var(--theme-primary) 85%, black);
-  --color-amber-700: color-mix(in srgb, var(--theme-primary) 65%, black);
+  /* Amber — Gold primary */
+  --color-amber-400: #e4b93c;
+  --color-amber-500: #c9a227;
+  --color-amber-600: #b58d19;
+  --color-amber-700: #937111;
 
-  /* Clay — a fixed supporting bubblegum-pink tone, not admin-themed (product-art gradients,
-     the Clay color-swatch option). Deliberately outside the 5 theme roles. */
-  --color-clay-500: #ff7aa2;
-  --color-clay-700: #e14f82;
+  /* Blush — delicate pink accents for gift shop warmth (replaces Clay) */
+  --color-clay-500: #fce7ec;
+  --color-clay-700: #f8c3d1;
 
-  /* Sunset — high-impact accent only (logo mark, "New" badge) — a brighter gold. */
-  --color-sunset-500: var(--theme-accent);
-  --color-sunset-600: color-mix(in srgb, var(--theme-accent) 85%, black);
+  /* Sunset — slightly brighter gold/peach accent */
+  --color-sunset-500: #f0c956;
+  --color-sunset-600: #dca73a;
 }
 
 @theme inline {
@@ -105,7 +102,7 @@
   --color-sunset-600: var(--color-sunset-600);
 
   --font-sans: var(--font-inter);
-  --font-display: var(--font-jakarta);
+  --font-display: var(--font-playfair);
 }
 
 body {
@@ -113,25 +110,23 @@ body {
   color: var(--foreground);
 }
 
-/* Slow-drifting gradient-mesh blobs — used behind the hero for a "living"
-   background instead of a static gradient. Kept purely CSS so it costs
-   nothing on the main thread. */
-@keyframes drift-a {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  50% { transform: translate(5%, -6%) scale(1.12); }
+/* Elegant float animations for background elements */
+@keyframes float-a {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-20px) scale(1.05); }
 }
-@keyframes drift-b {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  50% { transform: translate(-6%, 5%) scale(1.06); }
+@keyframes float-b {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-15px) scale(1.02); }
 }
-@keyframes drift-c {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  50% { transform: translate(4%, 6%) scale(0.94); }
+@keyframes float-c {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(15px) scale(0.98); }
 }
 
-.animate-drift-a { animation: drift-a 22s ease-in-out infinite; }
-.animate-drift-b { animation: drift-b 26s ease-in-out infinite; }
-.animate-drift-c { animation: drift-c 19s ease-in-out infinite; }
+.animate-drift-a { animation: float-a 8s ease-in-out infinite; }
+.animate-drift-b { animation: float-b 10s ease-in-out infinite; }
+.animate-drift-c { animation: float-c 12s ease-in-out infinite; }
 
 @media (prefers-reduced-motion: reduce) {
   .animate-drift-a, .animate-drift-b, .animate-drift-c {
@@ -145,18 +140,11 @@ body {
    layout/spacing/radius. */
 .glass {
   position: relative;
-  background-image: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.5) 0%,
-    rgba(255, 255, 255, 0.16) 55%,
-    rgba(255, 255, 255, 0.05) 100%
-  );
-  backdrop-filter: blur(22px) saturate(180%);
-  -webkit-backdrop-filter: blur(22px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.45);
-  box-shadow:
-    0 8px 32px rgba(36, 31, 22, 0.12),
-    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  background-color: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02);
 }
 
 .glass-amber {
@@ -174,17 +162,12 @@ body {
 }
 
 .glass-forest {
-  background-image: linear-gradient(
-    135deg,
-    color-mix(in srgb, var(--color-forest-800) 70%, transparent) 0%,
-    color-mix(in srgb, var(--color-forest-800) 40%, transparent) 100%
-  );
-  backdrop-filter: blur(18px) saturate(160%);
-  -webkit-backdrop-filter: blur(18px) saturate(160%);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  box-shadow:
-    0 8px 28px rgba(0, 0, 0, 0.25),
-    inset 0 1px 0 rgba(255, 255, 255, 0.22);
+  background-color: rgba(43, 40, 36, 0.85);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid rgba(80, 76, 71, 0.3);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  color: white;
 }
 
 /* Custom Brand Scrollbar */

@@ -2,12 +2,12 @@ import type { ReactElement } from "react";
 import { cn } from "@/lib/utils";
 
 const TONES: Record<string, string> = {
-  "for-him": "from-forest-600/20 via-sand-100 to-sand-200",
-  "for-her": "from-clay-500/20 via-sand-100 to-sand-200",
-  "curated-packages": "from-amber-500/20 via-sand-100 to-sand-200",
-  kids: "from-sunset-500/25 via-sand-100 to-sand-300",
-  "gift-cards": "from-amber-400/25 via-sand-100 to-sand-200",
-  "best-sellers": "from-sunset-500/20 via-sand-100 to-sand-200",
+  "for-him": "from-ink-950/5 via-sand-100 to-sand-200",
+  "for-her": "from-clay-500/15 via-sand-100 to-sand-200",
+  "curated-packages": "from-amber-500/15 via-sand-100 to-sand-200",
+  kids: "from-sunset-500/20 via-sand-100 to-sand-300",
+  "gift-cards": "from-amber-400/20 via-sand-100 to-sand-200",
+  "best-sellers": "from-sunset-500/15 via-sand-100 to-sand-200",
 };
 
 function ForHimArt() {
@@ -134,13 +134,13 @@ export function ProductArt({
   return (
     <div
       className={cn(
-        "relative flex items-center justify-center overflow-hidden bg-gradient-to-br text-ink-900",
+        "relative flex items-center justify-center overflow-hidden bg-gradient-to-br text-ink-900 border border-sand-200",
         tone,
         className
       )}
     >
-      <div className="absolute -right-8 -top-8 h-28 w-28 rounded-full bg-white/50 blur-2xl" />
-      <div className="absolute -bottom-10 -left-10 h-32 w-32 rounded-full bg-clay-500/10 blur-2xl" />
+      <div className="absolute -right-8 -top-8 h-28 w-28 rounded-full bg-white/70 blur-2xl" />
+      <div className="absolute -bottom-10 -left-10 h-32 w-32 rounded-full bg-clay-500/20 blur-2xl" />
       <Art />
     </div>
   );

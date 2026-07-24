@@ -111,7 +111,8 @@ export default function CartPage() {
       setReviewOrderId(order.id);
       setStep("confirmation");
       notifyOrderCreated(order);
-    } catch {
+    } catch (err) {
+      console.error("[checkout] submit for review failed", err);
       setPayError("Something went wrong submitting your order. Please try again.");
     } finally {
       setSubmitting(false);
@@ -151,6 +152,7 @@ export default function CartPage() {
       clearCart();
       window.location.href = data.authorization_url;
     } catch (err) {
+      console.error("[checkout] payment failed", err);
       setPayError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
     } finally {
       setSubmitting(false);

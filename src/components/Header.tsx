@@ -30,9 +30,9 @@ export function Header() {
   }, []);
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 pt-4 transition-all duration-300 ease-out bg-transparent pointer-events-none">
+    <header className="fixed inset-x-0 top-0 z-50 pt-2 transition-all duration-300 ease-out bg-transparent pointer-events-none">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-6 pointer-events-auto">
-        <Link href="/" className="flex items-center gap-3 rounded-2xl bg-white/40 px-3 py-2 backdrop-blur-md border border-white/20 shadow-sm transition-transform hover:scale-[1.02]">
+        <Link href="/" className="flex items-center gap-3 px-2 py-2 transition-transform hover:scale-[1.02]">
           <Logo className="h-16 w-auto" />
           <span className="font-display leading-tight hidden md:block">
             <span className="block whitespace-nowrap text-base font-bold tracking-tight text-ink-900">
@@ -41,7 +41,7 @@ export function Header() {
           </span>
         </Link>
 
-        <nav className="hidden items-center gap-1 rounded-full bg-white/40 px-2 py-1.5 backdrop-blur-md border border-white/20 shadow-sm md:flex">
+        <nav className="hidden items-center gap-2 rounded-full bg-white/90 px-3 py-2 backdrop-blur-md border border-sand-200 shadow-sm md:flex">
           <Link
             href="/"
             className="rounded-full px-4 py-2 text-sm font-semibold text-ink-900 transition-colors hover:bg-white/50"
@@ -102,7 +102,7 @@ export function Header() {
           ))}
         </nav>
 
-        <div className="flex items-center gap-1 rounded-full bg-white/40 p-1.5 backdrop-blur-md border border-white/20 shadow-sm">
+        <div className="flex items-center gap-1 rounded-full bg-white/90 p-1.5 backdrop-blur-md border border-sand-200 shadow-sm">
           <Link
             href="/shop"
             aria-label="Search products"
