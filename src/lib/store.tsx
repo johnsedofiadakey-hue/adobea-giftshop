@@ -139,6 +139,7 @@ export type SocialLinks = {
   instagram?: string;
   tiktok?: string;
   snapchat?: string;
+  whatsapp?: string;
 };
 
 export type StoreSettings = {
@@ -235,9 +236,10 @@ const DEFAULT_SETTINGS: StoreSettings = {
   emailProvider: "Brevo",
   emailFromAddress: "orders@adubeagifthub.com",
   socialLinks: {
-    instagram: "ea_dubea_gifthub",
-    tiktok: "giftshop_gh",
+    instagram: "EA_DUBEA_GIFTHUB",
+    tiktok: "@giftshop_gh",
     snapchat: "adub_ea",
+    whatsapp: "Adubea Giftshop",
   },
   hero: DEFAULT_HERO,
   promotion: DEFAULT_PROMOTION,

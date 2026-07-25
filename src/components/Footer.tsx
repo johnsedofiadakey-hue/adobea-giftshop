@@ -8,10 +8,11 @@ import { useAdminData } from "@/lib/store";
 export function Footer() {
   const { settings, categories } = useAdminData();
   const socials = [
-    { platform: "Instagram", handle: settings.socialLinks?.instagram },
-    { platform: "TikTok", handle: settings.socialLinks?.tiktok },
-    { platform: "Snapchat", handle: settings.socialLinks?.snapchat },
-  ].filter((s): s is { platform: string; handle: string } => Boolean(s.handle));
+    { platform: "Instagram", handle: settings.socialLinks?.instagram, url: `https://instagram.com/${settings.socialLinks?.instagram?.replace('@', '')}` },
+    { platform: "TikTok", handle: settings.socialLinks?.tiktok, url: `https://tiktok.com/${settings.socialLinks?.tiktok}` },
+    { platform: "Snapchat", handle: settings.socialLinks?.snapchat, url: `https://snapchat.com/add/${settings.socialLinks?.snapchat}` },
+    { platform: "WhatsApp", handle: settings.socialLinks?.whatsapp, url: `https://wa.me/${settings.storePhone.replace(/\\D/g, '')}` },
+  ].filter((s): s is { platform: string; handle: string; url: string } => Boolean(s.handle));
 
   return (
     <footer className="bg-forest-900 text-cream-100/90">
@@ -42,9 +43,11 @@ export function Footer() {
           {socials.length > 0 && (
             <ul className="mt-4 space-y-1.5 text-sm">
               {socials.map((s) => (
-                <li key={s.platform} className="flex items-center gap-2 text-cream-100/70">
-                  <AtSign className="h-3.5 w-3.5 shrink-0 text-sunset-500" />
-                  {s.platform}: {s.handle}
+                <li key={s.platform}>
+                  <a href={s.url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-cream-100/70 hover:text-white transition-colors">
+                    <AtSign className="h-3.5 w-3.5 shrink-0 text-sunset-500" />
+                    {s.platform}: {s.handle}
+                  </a>
                 </li>
               ))}
             </ul>

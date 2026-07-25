@@ -1,24 +1,40 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { Star } from "lucide-react";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Star, ShoppingCart, Minus, Plus, CheckCircle2 } from "lucide-react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import type { Product } from "@/lib/products";
 import { ProductArt } from "@/components/ProductArt";
-import { MotionLink } from "@/components/MotionLink";
 import { formatPrice, getDiscountPercent } from "@/lib/utils";
+import { useCart } from "@/lib/cart-context";
 
 export function ProductCard({ product }: { product: Product }) {
   const discount = getDiscountPercent(product);
+  const [quantity, setQuantity] = useState(1);
+  const [justAdded, setJustAdded] = useState(false);
+  const { addToCart } = useCart();
+  const router = useRouter();
+
+  const handleAdd = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    // Use first available color and size as defaults since they are selecting inline
+    const color = product.colors[0]?.name ?? "";
+    const size = product.sizes[0] ?? "";
+    addToCart(product, { color, size, quantity });
+    setJustAdded(true);
+    setTimeout(() => setJustAdded(false), 2000);
+  };
 
   return (
-    <MotionLink
-      href={`/product/${product.slug}`}
-      whileHover={{ y: -4 }}
-      whileTap={{ scale: 0.98 }}
-      transition={{ duration: 0.2, ease: "easeOut" }}
-      className={`group relative flex flex-col overflow-hidden rounded-3xl bg-white transition-all duration-300 hover:-translate-y-1 border border-sand-200 hover:border-amber-200 hover:shadow-xl`}
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      className={`group relative flex flex-col overflow-hidden rounded-3xl bg-white transition-all duration-300 border border-sand-200 hover:border-amber-200 hover:shadow-xl`}
     >
-      <div className="relative overflow-hidden">
+      <Link href={`/product/${product.slug}`} className="relative overflow-hidden block">
         {product.image ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
@@ -48,32 +64,89 @@ export function ProductCard({ product }: { product: Product }) {
             </motion.span>
           )}
         </div>
-      </div>
-      <div className="flex flex-1 flex-col gap-1 p-6">
+        </div>
+      </Link>
+      <div className="flex flex-1 flex-col gap-3 p-6">
         <span className="text-xs font-semibold uppercase tracking-wide text-amber-600">
           {product.categoryLabel}
         </span>
-        <h3 className="font-display text-lg font-bold text-ink-950 transition-colors group-hover:text-amber-600 line-clamp-1">
-          {product.name}
-        </h3>
-        <p className="mt-1 text-sm leading-relaxed text-ink-700 line-clamp-2">
+        <Link href={`/product/${product.slug}`}>
+          <h3 className="font-display text-lg font-bold text-ink-950 transition-colors hover:text-amber-600">
+            {product.name}
+          </h3>
+        </Link>
+        <p className="text-sm leading-relaxed text-ink-700">
           {product.description}
         </p>
-        <div className="mt-2 flex items-center gap-1 text-sm text-ink-700/80">
-          <Star className="h-4 w-4 fill-amber-500 text-amber-500" />
-          <span>{product.rating}</span>
-          <span className="text-ink-700/50">({product.reviewCount})</span>
-        </div>
-        <div className="mt-3 flex items-baseline gap-2 text-ink-900">
-          {discount !== null && (
-            <span className="text-sm text-ink-700/40 line-through">
-              {formatPrice(product.compareAtPrice!)}
-            </span>
-          )}
-          <span className="font-display text-xl font-bold">{formatPrice(product.price)}</span>
-          <span className="text-sm text-ink-700/70">per {product.unit}</span>
+
+        {product.specs && product.specs.length > 0 && (
+          <ul className="space-y-1.5 text-xs text-ink-700/80">
+            {product.specs.slice(0, 3).map((spec) => (
+              <li key={spec} className="flex items-start gap-1.5">
+                <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-amber-500" />
+                {spec}
+              </li>
+            ))}
+          </ul>
+        )}
+
+        <div className="mt-auto pt-4 border-t border-sand-100 flex flex-col gap-4">
+          <div className="flex items-baseline gap-2 text-ink-900 justify-between">
+            <div>
+              {discount !== null && (
+                <span className="text-sm text-ink-700/40 line-through mr-2">
+                  {formatPrice(product.compareAtPrice!)}
+                </span>
+              )}
+              <span className="font-display text-xl font-bold">{formatPrice(product.price)}</span>
+            </div>
+            
+            <div className="flex items-center rounded-full border border-sand-200 bg-sand-50/50">
+              <button
+                onClick={(e) => { e.preventDefault(); e.stopPropagation(); setQuantity((q) => Math.max(1, q - 1)); }}
+                className="p-1.5 text-ink-800 hover:text-amber-600"
+                aria-label="Decrease quantity"
+              >
+                <Minus className="h-4 w-4" />
+              </button>
+              <span className="w-6 text-center text-sm font-semibold">{quantity}</span>
+              <button
+                onClick={(e) => { e.preventDefault(); e.stopPropagation(); setQuantity((q) => Math.min(product.stock, q + 1)); }}
+                className="p-1.5 text-ink-800 hover:text-amber-600"
+                aria-label="Increase quantity"
+              >
+                <Plus className="h-4 w-4" />
+              </button>
+            </div>
+          </div>
+          
+          <div className="flex flex-col gap-2">
+            <motion.button
+              onClick={handleAdd}
+              whileTap={{ scale: 0.96 }}
+              className="flex w-full items-center justify-center gap-2 rounded-full bg-amber-500 py-2.5 font-semibold text-white transition-colors hover:bg-amber-600"
+            >
+              <ShoppingCart className="h-4 w-4" />
+              {justAdded ? "Added ✓" : `Add to Cart — ${formatPrice(product.price * quantity)}`}
+            </motion.button>
+            
+            <AnimatePresence>
+              {justAdded && (
+                <motion.button
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: "auto" }}
+                  exit={{ opacity: 0, height: 0 }}
+                  transition={{ duration: 0.2 }}
+                  onClick={(e) => { e.preventDefault(); e.stopPropagation(); router.push("/cart"); }}
+                  className="text-sm font-semibold text-ink-800 underline hover:text-amber-600"
+                >
+                  View cart
+                </motion.button>
+              )}
+            </AnimatePresence>
+          </div>
         </div>
       </div>
-    </MotionLink>
+    </motion.div>
   );
 }
