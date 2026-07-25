@@ -1,6 +1,6 @@
 "use client";
 
-import { Gift, Package, Truck, Award, Heart, User, ArrowRight } from "lucide-react";
+import { Gift, Package, Truck, Award, Heart, User, ArrowRight, Mail, Smile } from "lucide-react";
 import Link from "next/link";
 
 export function HeroSection() {
@@ -59,25 +59,6 @@ export function HeroSection() {
               </Link>
             </div>
 
-            {/* Trust Badges */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-8 max-w-xl text-gray-700">
-              <div className="flex items-center gap-3">
-                <Gift className="text-[#C86267] shrink-0" size={24} />
-                <span className="text-xs font-medium leading-snug">Premium Quality</span>
-              </div>
-              <div className="flex items-center gap-3">
-                <Package className="text-[#C86267] shrink-0" size={24} />
-                <span className="text-xs font-medium leading-snug">Beautifully Packaged</span>
-              </div>
-              <div className="flex items-center gap-3">
-                <Truck className="text-[#C86267] shrink-0" size={24} />
-                <span className="text-xs font-medium leading-snug">Fast & Reliable Delivery</span>
-              </div>
-              <div className="flex items-center gap-3">
-                <Award className="text-[#C86267] shrink-0" size={24} />
-                <span className="text-xs font-medium leading-snug">Trusted by Hundreds</span>
-              </div>
-            </div>
 
           </div>
         </div>
@@ -113,47 +94,47 @@ export function HeroSection() {
 
           <div className="flex items-center gap-3 pt-2 md:pt-0 md:px-2">
             <div className="p-2 bg-pink-50 rounded-lg text-[#C86267]">
-              <Gift size={20} />
-            </div>
-            <div>
-              <p className="text-xs font-semibold text-gray-900">Birthday Gifts</p>
-              <Link href="/shop" className="text-[11px] text-gray-500 hover:text-[#C86267] flex items-center gap-0.5">
-                Shop Now <ArrowRight size={10} />
-              </Link>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-3 pt-2 md:pt-0 md:px-2">
-            <div className="p-2 bg-pink-50 rounded-lg text-[#C86267]">
-              <Heart size={20} />
-            </div>
-            <div>
-              <p className="text-xs font-semibold text-gray-900">Anniversary Gifts</p>
-              <Link href="/shop" className="text-[11px] text-gray-500 hover:text-[#C86267] flex items-center gap-0.5">
-                Shop Now <ArrowRight size={10} />
-              </Link>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-3 pt-2 md:pt-0 md:px-2">
-            <div className="p-2 bg-pink-50 rounded-lg text-[#C86267]">
               <Package size={20} />
             </div>
             <div>
-              <p className="text-xs font-semibold text-gray-900">Build Your Box</p>
-              <Link href="/shop" className="text-[11px] text-gray-500 hover:text-[#C86267] flex items-center gap-0.5">
-                Create Now <ArrowRight size={10} />
+              <p className="text-xs font-semibold text-gray-900">Curated packages</p>
+              <Link href="/category/curated-packages" className="text-[11px] text-gray-500 hover:text-[#C86267] flex items-center gap-0.5">
+                Shop Now <ArrowRight size={10} />
               </Link>
             </div>
           </div>
 
           <div className="flex items-center gap-3 pt-2 md:pt-0 md:px-2">
             <div className="p-2 bg-pink-50 rounded-lg text-[#C86267]">
-              <Gift size={20} />
+              <Award size={20} />
             </div>
             <div>
-              <p className="text-xs font-semibold text-gray-900">Surprise Boxes</p>
-              <Link href="/category/curated-packages" className="text-[11px] text-gray-500 hover:text-[#C86267] flex items-center gap-0.5">
+              <p className="text-xs font-semibold text-gray-900">Best sellers</p>
+              <Link href="/best-sellers" className="text-[11px] text-gray-500 hover:text-[#C86267] flex items-center gap-0.5">
+                Shop Now <ArrowRight size={10} />
+              </Link>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-3 pt-2 md:pt-0 md:px-2">
+            <div className="p-2 bg-pink-50 rounded-lg text-[#C86267]">
+              <Smile size={20} />
+            </div>
+            <div>
+              <p className="text-xs font-semibold text-gray-900">Kids</p>
+              <Link href="/category/kids" className="text-[11px] text-gray-500 hover:text-[#C86267] flex items-center gap-0.5">
+                Shop Now <ArrowRight size={10} />
+              </Link>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-3 pt-2 md:pt-0 md:px-2">
+            <div className="p-2 bg-pink-50 rounded-lg text-[#C86267]">
+              <Mail size={20} />
+            </div>
+            <div>
+              <p className="text-xs font-semibold text-gray-900">Message Card</p>
+              <Link href="/shop" className="text-[11px] text-gray-500 hover:text-[#C86267] flex items-center gap-0.5">
                 Shop Now <ArrowRight size={10} />
               </Link>
             </div>

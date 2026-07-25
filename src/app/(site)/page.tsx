@@ -112,7 +112,7 @@ export default function Home() {
               </h2>
             </div>
             <Link
-              href="/shop"
+              href="/best-sellers"
               className="inline-flex items-center gap-1 font-semibold text-ink-800 hover:text-amber-600"
             >
               View All

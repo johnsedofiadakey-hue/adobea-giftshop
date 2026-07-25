@@ -33,9 +33,6 @@ export function Header() {
           <Link href="#" className="hover:text-[#C86267] transition-colors">
             Build Your Box
           </Link>
-          <Link href="#" className="flex items-center gap-1 hover:text-[#C86267] transition-colors">
-            Occasions <ChevronDown size={14} />
-          </Link>
           <Link href="/about" className="hover:text-[#C86267] transition-colors">
             About Us
           </Link>
