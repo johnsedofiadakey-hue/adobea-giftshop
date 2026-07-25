@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { AtSign, Mail, MapPin, Phone } from "lucide-react";
+import { AtSign, Mail, MapPin, Phone, Gift } from "lucide-react";
 import { Logo } from "@/components/Logo";
 import { useAdminData } from "@/lib/store";
 
@@ -25,10 +25,15 @@ export function Footer() {
       />
       <div className="mx-auto grid max-w-7xl gap-10 px-6 py-14 sm:grid-cols-2 lg:grid-cols-4">
         <div>
-          <Link href="/" className="flex items-center gap-3">
-            <Logo className="h-14 rounded-xl bg-white/90 p-1.5" />
-            <span className="font-display text-lg font-bold text-white">
-              EA_DUBEA&apos;S GIFT HUB
+          <Link href="/" className="flex flex-col items-start hover:opacity-90 transition-opacity">
+            <div className="flex items-center gap-1 text-[#C86267]">
+              <Gift size={24} />
+            </div>
+            <span className="font-serif text-2xl tracking-wide text-white font-medium leading-none mt-1">
+              ea_dubea&apos;s
+            </span>
+            <span className="text-[10px] tracking-[0.25em] text-cream-100/70 uppercase mt-0.5">
+              GIFTHUB
             </span>
           </Link>
           <p className="mt-4 max-w-xs text-sm text-cream-100/70">
