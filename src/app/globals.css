@@ -14,54 +14,54 @@
      black/white), so theme-primary/theme-accent are placeholder gold tones — swap for
      an exact hex anytime via Admin -> Settings -> Colors & Branding, no code change
      needed. */
-  --theme-primary: #c9a227;
-  --theme-secondary: #1e1e1e;
-  --theme-accent: #e4b93c;
-  --theme-text: #2a2a2a;
-  --theme-background: #ffffff;
+  --theme-primary: #C86267;
+  --theme-secondary: #FAF3F3;
+  --theme-accent: #D89B9E;
+  --theme-text: #2A2A2A;
+  --theme-background: #FFF9F9;
 
   --background: var(--theme-background);
   --foreground: var(--theme-text);
 
-  /* Ink — neutral charcoal text scale */
-  --color-ink-950: #1a1a1a;
+  /* Ink — neutral charcoal text scale (now with a subtle rose undertone) */
+  --color-ink-950: #1a1516;
   --color-ink-900: #2a2a2a;
-  --color-ink-800: #3a3a3a;
-  --color-ink-700: #555555;
-  --color-ink-500: #888888;
+  --color-ink-800: #423032;
+  --color-ink-700: #5a4245;
+  --color-ink-500: #9c8a8c;
 
-  /* Sand — Warm Cream section backgrounds */
-  --color-sand-50: #fcfbfa;
-  --color-sand-100: #faf8f5;
-  --color-sand-200: #f4f0e6;
-  --color-sand-300: #e8e0d0;
+  /* Sand — Warm Cream section backgrounds (now Pinkish Off-White) */
+  --color-sand-50: #fff9f9;
+  --color-sand-100: #faf3f3;
+  --color-sand-200: #f3e6e6;
+  --color-sand-300: #ead8d8;
 
-  /* Forest — redefined as deeper neutral/taupe accents for a boutique feel */
-  --color-forest-950: #2b2824;
-  --color-forest-900: #3d3934;
-  --color-forest-800: #504c47;
-  --color-forest-700: #6b6761;
-  --color-forest-600: #858079;
-  --color-forest-500: #a39d96;
+  /* Forest — redefined as deeper neutral/taupe accents (now rose/taupe) */
+  --color-forest-950: #2b2223;
+  --color-forest-900: #3d3032;
+  --color-forest-800: #504042;
+  --color-forest-700: #6b575a;
+  --color-forest-600: #856f72;
+  --color-forest-500: #a38c8f;
 
   /* Cream — crisp white to cream transitions */
   --color-cream-50: #ffffff;
-  --color-cream-100: #fefdfb;
-  --color-cream-200: #fdfaf6;
+  --color-cream-100: #fffcfc;
+  --color-cream-200: #fff9f9;
 
-  /* Amber — Gold primary */
-  --color-amber-400: #e4b93c;
-  --color-amber-500: #c9a227;
-  --color-amber-600: #b58d19;
-  --color-amber-700: #937111;
+  /* Amber — Gold primary (now Rose/Pink primary) */
+  --color-amber-400: #D89B9E;
+  --color-amber-500: #C86267;
+  --color-amber-600: #b05257;
+  --color-amber-700: #8c3f43;
 
-  /* Blush — delicate pink accents for gift shop warmth (replaces Clay) */
+  /* Blush — delicate pink accents */
   --color-clay-500: #fce7ec;
   --color-clay-700: #f8c3d1;
 
-  /* Sunset — slightly brighter gold/peach accent */
-  --color-sunset-500: #f0c956;
-  --color-sunset-600: #dca73a;
+  /* Sunset — slightly brighter accent (now brighter pink) */
+  --color-sunset-500: #E6858A;
+  --color-sunset-600: #D86B70;
 }
 
 @theme inline {

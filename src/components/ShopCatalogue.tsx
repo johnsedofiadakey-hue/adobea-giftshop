@@ -3,32 +3,42 @@
 import { useMemo, useState } from "react";
 import { PackageSearch, Search } from "lucide-react";
 import { ProductCard } from "@/components/ProductCard";
-import type { Product } from "@/lib/products";
+import { OCCASIONS } from "@/lib/products";
 import { useAdminData } from "@/lib/store";
 import { cn } from "@/lib/utils";
 
 type SortKey = "featured" | "price-asc" | "price-desc" | "rating";
 
-const PRICE_RANGES = [
-  { key: "all", label: "All Prices", test: () => true },
-  { key: "under-60", label: "Under GH₵ 60", test: (p: Product) => p.price < 60 },
-  { key: "60-100", label: "GH₵ 60 – 100", test: (p: Product) => p.price >= 60 && p.price <= 100 },
-  { key: "100-plus", label: "GH₵ 100+", test: (p: Product) => p.price > 100 },
-];
-
-export function ShopCatalogue({ initialCategory }: { initialCategory?: string }) {
+export function ShopCatalogue({
+  initialCategory,
+  initialOccasion,
+  initialMaxPrice,
+}: {
+  initialCategory?: string;
+  initialOccasion?: string;
+  initialMaxPrice?: number;
+}) {
   const { products, categories } = useAdminData();
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState(initialCategory ?? "all");
-  const [priceRange, setPriceRange] = useState("all");
+  const [occasion, setOccasion] = useState(initialOccasion ?? "all");
+
+  // The budget slider's own bounds come from the real catalog, not a guessed range —
+  // so it's never narrower than what's actually for sale, and never absurdly wide either.
+  const catalogPrices = products.map((p) => p.price);
+  const catalogMin = catalogPrices.length ? Math.floor(Math.min(...catalogPrices) / 10) * 10 : 0;
+  const catalogMax = catalogPrices.length ? Math.ceil(Math.max(...catalogPrices) / 10) * 10 : 1000;
+  const [maxPrice, setMaxPrice] = useState(initialMaxPrice ?? catalogMax);
+
   const [sort, setSort] = useState<SortKey>("featured");
 
   const filtered = useMemo(() => {
-    const priceTest = PRICE_RANGES.find((r) => r.key === priceRange)?.test ?? (() => true);
     let list = products.filter((p) => {
       const matchesQuery = p.name.toLowerCase().includes(query.toLowerCase());
       const matchesCategory = category === "all" || p.category === category;
-      return matchesQuery && matchesCategory && priceTest(p);
+      const matchesOccasion = occasion === "all" || (p.occasions ?? []).includes(occasion);
+      const matchesPrice = p.price <= maxPrice;
+      return matchesQuery && matchesCategory && matchesOccasion && matchesPrice;
     });
 
     list = [...list];
@@ -37,7 +47,7 @@ export function ShopCatalogue({ initialCategory }: { initialCategory?: string })
     if (sort === "rating") list.sort((a, b) => b.rating - a.rating);
 
     return list;
-  }, [products, query, category, priceRange, sort]);
+  }, [products, query, category, occasion, maxPrice, sort]);
 
   return (
     <div className="mx-auto max-w-7xl px-6 py-10">
@@ -100,23 +110,52 @@ export function ShopCatalogue({ initialCategory }: { initialCategory?: string })
 
           <div>
             <h3 className="text-xs font-semibold uppercase tracking-widest text-ink-700/70">
-              Price Range
+              Occasion
             </h3>
             <div className="mt-3 flex flex-col gap-1">
-              {PRICE_RANGES.map((range) => (
+              <button
+                onClick={() => setOccasion("all")}
+                className={cn(
+                  "rounded-full px-4 py-2 text-left text-sm font-medium transition-colors",
+                  occasion === "all" ? "bg-amber-500 text-white" : "text-ink-800 hover:bg-cream-100"
+                )}
+              >
+                Any Occasion
+              </button>
+              {OCCASIONS.map((o) => (
                 <button
-                  key={range.key}
-                  onClick={() => setPriceRange(range.key)}
+                  key={o}
+                  onClick={() => setOccasion(o)}
                   className={cn(
                     "rounded-full px-4 py-2 text-left text-sm font-medium transition-colors",
-                    priceRange === range.key
-                      ? "bg-amber-500 text-white"
-                      : "text-ink-800 hover:bg-cream-100"
+                    occasion === o ? "bg-amber-500 text-white" : "text-ink-800 hover:bg-cream-100"
                   )}
                 >
-                  {range.label}
+                  {o}
                 </button>
               ))}
+            </div>
+          </div>
+
+          <div>
+            <div className="flex items-baseline justify-between">
+              <h3 className="text-xs font-semibold uppercase tracking-widest text-ink-700/70">
+                Max Budget
+              </h3>
+              <span className="text-xs font-semibold text-amber-600">GH₵ {maxPrice}</span>
+            </div>
+            <input
+              type="range"
+              min={catalogMin}
+              max={catalogMax}
+              step={10}
+              value={maxPrice}
+              onChange={(e) => setMaxPrice(Number(e.target.value))}
+              className="mt-3 w-full accent-amber-500"
+            />
+            <div className="mt-1 flex justify-between text-[11px] text-ink-700/50">
+              <span>GH₵ {catalogMin}</span>
+              <span>GH₵ {catalogMax}</span>
             </div>
           </div>
         </aside>

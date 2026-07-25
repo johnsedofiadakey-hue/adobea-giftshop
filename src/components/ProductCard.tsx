@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Star } from "lucide-react";
-import { BADGE_STYLES, type Product } from "@/lib/products";
+import type { Product } from "@/lib/products";
 import { ProductArt } from "@/components/ProductArt";
 import { MotionLink } from "@/components/MotionLink";
 import { formatPrice, getDiscountPercent } from "@/lib/utils";

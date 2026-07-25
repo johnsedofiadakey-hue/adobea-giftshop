@@ -6,6 +6,7 @@ import {
   ArrowLeft,
   ArrowRight,
   CheckCircle2,
+  Gift,
   Loader2,
   Minus,
   Plus,
@@ -46,6 +47,24 @@ const EMPTY_DELIVERY: DeliveryDetails = {
   deliveryFeePayer: "customer",
   additionalInfo: "",
 };
+
+// Shown on both Delivery Details and Order Summary so the packaging choice made
+// back in Step 2 stays visible instead of silently carrying through the rest of
+// the wizard — previously the only place it showed was a line of plain text
+// buried in the Step 4 summary.
+function PackagingBadge({ requested }: { requested: boolean | null }) {
+  if (requested === null) return null;
+  return (
+    <span
+      className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-semibold ${
+        requested ? "bg-amber-500/15 text-amber-700" : "bg-ink-900/5 text-ink-700/70"
+      }`}
+    >
+      <Gift className="h-3.5 w-3.5" />
+      {requested ? "Gift packaging requested" : "No gift packaging"}
+    </span>
+  );
+}
 
 export default function CartPage() {
   const { lines, updateQuantity, removeLine, itemCount, subtotal, clearCart } = useCart();
@@ -388,7 +407,19 @@ export default function CartPage() {
     return (
       <div>
         <PageHero eyebrow="Step 3 of 4" title="Delivery Details" />
-        <section className="mx-auto max-w-lg px-6 py-16">
+        <section className="mx-auto max-w-lg px-6 pt-10">
+          <div className="flex items-center justify-between gap-3">
+            <PackagingBadge requested={packagingRequested} />
+            <button
+              type="button"
+              onClick={() => setStep("packaging")}
+              className="text-xs font-semibold text-ink-700/60 hover:text-amber-600"
+            >
+              Change
+            </button>
+          </div>
+        </section>
+        <section className="mx-auto max-w-lg px-6 pb-16 pt-6">
           <form
             onSubmit={(e) => {
               e.preventDefault();
@@ -566,7 +597,19 @@ export default function CartPage() {
   return (
     <div>
       <PageHero eyebrow="Step 4 of 4" title="Order Summary" />
-      <section className="mx-auto max-w-lg px-6 py-16">
+      <section className="mx-auto max-w-lg px-6 pt-10">
+        <div className="flex items-center justify-between gap-3">
+          <PackagingBadge requested={packagingRequested} />
+          <button
+            type="button"
+            onClick={() => setStep("packaging")}
+            className="text-xs font-semibold text-ink-700/60 hover:text-amber-600"
+          >
+            Change
+          </button>
+        </div>
+      </section>
+      <section className="mx-auto max-w-lg px-6 pb-16 pt-6">
         <div className="rounded-2xl border border-cream-200 bg-cream-50 p-6">
           <p className="text-xs font-semibold uppercase tracking-wide text-ink-700/60">
             Products
@@ -604,6 +647,23 @@ export default function CartPage() {
               : `Pickup for ${delivery.recipientName}`}
           </p>
           <p className="text-sm text-ink-700/70">Preferred date: {delivery.preferredDate}</p>
+          {delivery.deliveryMethod === "Delivery" && (
+            <p className="text-sm text-ink-700/70">
+              Delivery fee paid by:{" "}
+              {delivery.deliveryFeePayer === "customer" ? "You" : "Recipient"}
+            </p>
+          )}
+
+          {delivery.additionalInfo && (
+            <>
+              <p className="mt-5 text-xs font-semibold uppercase tracking-wide text-ink-700/60">
+                Additional Notes
+              </p>
+              <p className="mt-1 text-sm italic text-ink-700/80">
+                &ldquo;{delivery.additionalInfo}&rdquo;
+              </p>
+            </>
+          )}
         </div>
 
         {payError && (

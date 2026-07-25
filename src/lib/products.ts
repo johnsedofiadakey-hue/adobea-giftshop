@@ -26,7 +26,22 @@ export type Product = {
   sizes: string[];
   specs: string[];
   image?: string;
+  // Which occasions this product suits — powers the homepage Gift Matcher and the
+  // Occasion filter on /shop. Optional: untagged products just won't surface when a
+  // customer filters by occasion, so tag anything meant to be occasion-discoverable.
+  occasions?: string[];
 };
+
+// Fixed list so the homepage Gift Matcher and the admin tagging checkboxes always
+// stay in sync — add/remove an occasion here and both update together.
+export const OCCASIONS = [
+  "Birthday",
+  "Anniversary",
+  "Wedding",
+  "Graduation / New Job",
+  "Thank You",
+  "Just Because",
+] as const;
 
 // "Best Sellers" is deliberately not a category here — it's computed from real order
 // data (see src/lib/top-sellers.ts) and rendered as an extra nav/homepage tile instead
@@ -62,6 +77,7 @@ export const products: Product[] = [
       "Ready to give, no extra wrapping needed",
       "Customizable on request",
     ],
+    occasions: ["Birthday", "Thank You", "Just Because"],
   },
   {
     slug: "the-gentlemans-set",
@@ -78,6 +94,7 @@ export const products: Product[] = [
     colors: [{ name: "Charcoal", hex: "#1E1E1E" }],
     sizes: ["Standard"],
     specs: ["Comes gift-boxed", "Great for birthdays & anniversaries"],
+    occasions: ["Birthday", "Anniversary", "Graduation / New Job"],
   },
   {
     slug: "her-self-care-set",
@@ -95,6 +112,7 @@ export const products: Product[] = [
     colors: [{ name: "Blush", hex: "#e14f82" }],
     sizes: ["Standard"],
     specs: ["Comes gift-boxed", "A note card included on request"],
+    occasions: ["Birthday", "Anniversary", "Thank You"],
   },
   {
     slug: "kids-surprise-box",
@@ -110,6 +128,7 @@ export const products: Product[] = [
     colors: [{ name: "Bright Mix", hex: "#ffb100" }],
     sizes: ["Standard"],
     specs: ["Age-appropriate items only", "Fun unboxing presentation"],
+    occasions: ["Birthday", "Just Because"],
   },
   {
     slug: "gift-card-gh100",
@@ -130,6 +149,7 @@ export const products: Product[] = [
     ],
     sizes: ["Standard"],
     specs: ["Delivered as a printed gift card", "Add a personal message at checkout", "Never expires"],
+    occasions: ["Birthday", "Anniversary", "Wedding", "Graduation / New Job", "Thank You", "Just Because"],
   },
 ];
 

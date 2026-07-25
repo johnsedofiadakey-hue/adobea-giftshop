@@ -257,6 +257,28 @@ function uid(prefix: string) {
   return `${prefix}-${Math.random().toString(36).slice(2, 10)}`;
 }
 
+// Firestore's client SDK rejects `undefined` field values outright (invalid-argument),
+// unlike `null` — but optional fields built from form state (e.g. Order.altPhone,
+// Order.email, CartLine.giftMessage via `value || undefined`) naturally end up
+// `undefined` when left blank. Recurses into arrays/nested objects too — an order's
+// `lines` array is exactly where this bit us: a plain (non-gift-card) cart line still
+// carries an explicit `giftMessage: undefined` key in memory, and a top-level-only
+// strip doesn't reach it. Every doc write goes through this so an empty optional field
+// never turns into a hard checkout failure.
+function stripUndefined<T>(value: T): T {
+  if (Array.isArray(value)) {
+    return value.map((v) => stripUndefined(v)) as T;
+  }
+  if (value !== null && typeof value === "object") {
+    return Object.fromEntries(
+      Object.entries(value as Record<string, unknown>)
+        .filter(([, v]) => v !== undefined)
+        .map(([k, v]) => [k, stripUndefined(v)])
+    ) as T;
+  }
+  return value;
+}
+
 type AdminDataContextValue = {
   products: Product[];
   categories: Category[];
@@ -408,12 +430,12 @@ export function AdminDataProvider({ children }: { children: React.ReactNode }) {
   const addProduct = async (input: Omit<Product, "slug"> & { slug?: string }) => {
     const slug = input.slug ?? slugify(input.name);
     const product: Product = { ...input, slug } as Product;
-    await setDoc(doc(db, "products", slug), product);
+    await setDoc(doc(db, "products", slug), stripUndefined(product));
     return product;
   };
 
   const updateProduct = async (slug: string, patch: Partial<Product>) => {
-    await updateDoc(doc(db, "products", slug), patch);
+    await updateDoc(doc(db, "products", slug), stripUndefined(patch));
   };
 
   const removeProduct = async (slug: string) => {
@@ -428,7 +450,7 @@ export function AdminDataProvider({ children }: { children: React.ReactNode }) {
   };
 
   const updateCategory = async (slug: string, patch: Partial<Category>) => {
-    await updateDoc(doc(db, "categories", slug), patch);
+    await updateDoc(doc(db, "categories", slug), stripUndefined(patch));
   };
 
   const removeCategory = async (slug: string) => {
@@ -455,7 +477,7 @@ export function AdminDataProvider({ children }: { children: React.ReactNode }) {
       paymentStatus: "unpaid",
       total: input.subtotal,
     };
-    await setDoc(doc(db, "orders", id), order);
+    await setDoc(doc(db, "orders", id), stripUndefined(order));
     return order;
   };
 
@@ -502,7 +524,7 @@ export function AdminDataProvider({ children }: { children: React.ReactNode }) {
   };
 
   const updateStaff = async (id: string, patch: Partial<Omit<StaffMember, "id">>) => {
-    await updateDoc(doc(db, "staff", id), patch);
+    await updateDoc(doc(db, "staff", id), stripUndefined(patch));
   };
 
   const removeStaff = async (id: string) => {
@@ -517,7 +539,7 @@ export function AdminDataProvider({ children }: { children: React.ReactNode }) {
   };
 
   const updatePost = async (slug: string, patch: Partial<BlogPost>) => {
-    await updateDoc(doc(db, "posts", slug), patch);
+    await updateDoc(doc(db, "posts", slug), stripUndefined(patch));
   };
 
   const removePost = async (slug: string) => {

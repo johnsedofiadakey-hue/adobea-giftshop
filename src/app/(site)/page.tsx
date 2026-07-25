@@ -5,24 +5,13 @@ import { ArrowRight, Truck, Gift, Sparkles, Heart } from "lucide-react";
 import { ProductArt } from "@/components/ProductArt";
 import { ProductCard } from "@/components/ProductCard";
 import { CategoryCarousel } from "@/components/CategoryCarousel";
-import { HeroCarousel } from "@/components/HeroCarousel";
-import { KineticHeadline } from "@/components/KineticHeadline";
+import { HeroSection } from "@/components/HeroSection";
 import { MagneticButton } from "@/components/MagneticButton";
 import { Newsletter } from "@/components/Newsletter";
-import { Wave } from "@/components/Wave";
 import { Reveal } from "@/components/Reveal";
 import { MotionLink } from "@/components/MotionLink";
-import { CountUp } from "@/components/CountUp";
-import { motion, useScroll, useTransform } from "framer-motion";
 import { useAdminData } from "@/lib/store";
 import { getTopSellers } from "@/lib/top-sellers";
-
-const BRAND_ACCENTS = [
-  "bg-amber-500/15 text-amber-600",
-  "bg-forest-600/12 text-forest-700",
-  "bg-clay-700/12 text-clay-700",
-  "bg-sunset-500/15 text-sunset-600",
-];
 
 const FEATURES = [
   {
@@ -56,14 +45,10 @@ export default function Home() {
   const heroProducts = bestSellers.length > 0 ? bestSellers : products.slice(0, 4);
   const hero = settings.hero;
 
-  const { scrollY } = useScroll();
-  const y = useTransform(scrollY, [0, 800], [0, 200]);
-  const opacity = useTransform(scrollY, [0, 500], [1, 0.2]);
-
   return (
     <div>
       {/* Hero */}
-      <HeroCarousel products={heroProducts} settings={hero} />
+      <HeroSection />
 
       {/* Category carousel */}
       <section className="relative overflow-hidden py-20">
@@ -172,7 +157,6 @@ export default function Home() {
 
           <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {FEATURES.map((feature, index) => {
-              const accent = BRAND_ACCENTS[index % BRAND_ACCENTS.length];
               const card = settings.pageContent.whyUsCards[index] ?? feature;
               return (
                 <Reveal

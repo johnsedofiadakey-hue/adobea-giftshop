@@ -105,6 +105,14 @@ export function Footer() {
       </div>
       <div className="relative border-t border-white/10 px-6 py-5 text-center text-xs text-cream-100/60">
         © {new Date().getFullYear()} EA_DUBEA&apos;S GIFT HUB. All rights reserved.
+        <span className="mx-2">·</span>
+        <Link href="/privacy" className="hover:text-cream-100">
+          Privacy Policy
+        </Link>
+        <span className="mx-2">·</span>
+        <Link href="/terms" className="hover:text-cream-100">
+          Terms of Service
+        </Link>
         <Link
           href="/admin/login"
           className="mt-2 block text-cream-100/20 transition-colors hover:text-cream-100/50 sm:absolute sm:right-6 sm:top-1/2 sm:mt-0 sm:-translate-y-1/2"

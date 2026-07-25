@@ -4,7 +4,7 @@ import { useState } from "react";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { Plus, Trash2, X } from "lucide-react";
 import { storage } from "@/lib/firebase";
-import type { Category, ColorVariant, Product } from "@/lib/products";
+import { OCCASIONS, type Category, type ColorVariant, type Product } from "@/lib/products";
 
 const BADGES = ["", "Best Seller", "Eco-Friendly", "New"] as const;
 
@@ -22,6 +22,7 @@ type FormValues = {
   colors: ColorVariant[];
   sizes: string;
   specs: string;
+  occasions: string[];
   image?: string;
 };
 
@@ -40,6 +41,7 @@ function toFormValues(product?: Product, defaultCategory?: string): FormValues {
     colors: product?.colors ?? [],
     sizes: product?.sizes.join(", ") ?? "",
     specs: product?.specs.join("\n") ?? "",
+    occasions: product?.occasions ?? [],
     image: product?.image,
   };
 }
@@ -79,6 +81,14 @@ export function ProductForm({
 
   const removeColor = (index: number) =>
     setValues((prev) => ({ ...prev, colors: prev.colors.filter((_, i) => i !== index) }));
+
+  const toggleOccasion = (occasion: string) =>
+    setValues((prev) => ({
+      ...prev,
+      occasions: prev.occasions.includes(occasion)
+        ? prev.occasions.filter((o) => o !== occasion)
+        : [...prev.occasions, occasion],
+    }));
 
   const handleImage = (file: File | undefined) => {
     if (!file) return;
@@ -126,6 +136,7 @@ export function ProductForm({
           .split("\n")
           .map((s) => s.trim())
           .filter(Boolean),
+        occasions: values.occasions,
         image: imageUrl,
       });
     } catch {
@@ -396,6 +407,34 @@ export function ProductForm({
               onChange={(e) => set("specs", e.target.value)}
               className="mt-2 w-full rounded-xl border border-cream-200 bg-white px-4 py-2.5 text-sm focus:border-amber-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/40"
             />
+          </div>
+
+          <div>
+            <label className="text-xs font-semibold uppercase tracking-wide text-ink-700/70">
+              Occasions
+            </label>
+            <p className="mt-1 text-xs text-ink-700/50">
+              Powers the homepage Gift Matcher and the Occasion filter on the shop page.
+            </p>
+            <div className="mt-2 flex flex-wrap gap-2">
+              {OCCASIONS.map((occasion) => {
+                const active = values.occasions.includes(occasion);
+                return (
+                  <button
+                    key={occasion}
+                    type="button"
+                    onClick={() => toggleOccasion(occasion)}
+                    className={`rounded-full border px-3 py-1.5 text-xs font-medium transition-colors ${
+                      active
+                        ? "border-amber-500 bg-amber-500 text-white"
+                        : "border-cream-200 bg-white text-ink-700 hover:border-amber-300"
+                    }`}
+                  >
+                    {occasion}
+                  </button>
+                );
+              })}
+            </div>
           </div>
 
           {error && (
