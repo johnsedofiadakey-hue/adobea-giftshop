@@ -64,7 +64,6 @@ export function ProductCard({ product }: { product: Product }) {
             </motion.span>
           )}
         </div>
-        </div>
       </Link>
       <div className="flex flex-1 flex-col gap-3 p-6">
         <span className="text-xs font-semibold uppercase tracking-wide text-amber-600">
