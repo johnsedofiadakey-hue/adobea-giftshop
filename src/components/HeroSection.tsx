@@ -51,12 +51,7 @@ export function HeroSection() {
               >
                 SHOP NOW
               </Link>
-              <Link 
-                href="#" 
-                className="border border-[#D89B9E] text-[#C86267] hover:bg-[#FAF3F3] text-xs md:text-sm font-semibold uppercase tracking-wider px-8 py-4 rounded-md transition-all text-center min-w-[160px] bg-white/50 backdrop-blur-sm"
-              >
-                BUILD YOUR BOX
-              </Link>
+
             </div>
 
 
