@@ -67,11 +67,6 @@ export function Footer() {
               </li>
             ))}
             <li>
-              <Link href="/best-sellers" className="hover:text-white">
-                Best Sellers
-              </Link>
-            </li>
-            <li>
               <Link href="/shop" className="hover:text-white">
                 All Products
               </Link>

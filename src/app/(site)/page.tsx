@@ -99,36 +99,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Best sellers */}
-      <section className="bg-sand-100 py-20">
-        <div className="mx-auto max-w-7xl px-6">
-          <Reveal className="flex flex-wrap items-end justify-between gap-4">
-            <div>
-              <p className="text-sm font-bold uppercase tracking-widest text-forest-600">
-                Top Picks
-              </p>
-              <h2 className="mt-2 font-display text-3xl font-extrabold text-ink-900 sm:text-4xl">
-                Best Sellers
-              </h2>
-            </div>
-            <Link
-              href="/best-sellers"
-              className="inline-flex items-center gap-1 font-semibold text-ink-800 hover:text-amber-600"
-            >
-              View All
-              <ArrowRight className="h-4 w-4" />
-            </Link>
-          </Reveal>
 
-          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {bestSellers.map((product, index) => (
-              <Reveal key={product.slug} delay={index * 0.06}>
-                <ProductCard product={product} />
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* Why us */}
       <section className="relative overflow-hidden py-20">

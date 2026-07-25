@@ -66,7 +66,7 @@ export function HeroSection() {
 
       {/* Bottom Floating Quick Category Navigation Bar */}
       <div className="relative z-20 max-w-6xl mx-auto px-4 -mt-6 pb-12">
-        <div className="bg-white rounded-2xl shadow-xl border border-pink-100/60 p-4 md:p-6 grid grid-cols-2 md:grid-cols-6 gap-4 divide-y md:divide-y-0 md:divide-x divide-gray-100">
+        <div className="bg-white rounded-2xl shadow-xl border border-pink-100/60 p-4 md:p-6 grid grid-cols-2 md:grid-cols-5 gap-4 divide-y md:divide-y-0 md:divide-x divide-gray-100">
           
           <div className="flex items-center gap-3 pt-2 md:pt-0 md:px-2">
             <div className="p-2 bg-pink-50 rounded-lg text-[#C86267]">
@@ -104,17 +104,7 @@ export function HeroSection() {
             </div>
           </div>
 
-          <div className="flex items-center gap-3 pt-2 md:pt-0 md:px-2">
-            <div className="p-2 bg-pink-50 rounded-lg text-[#C86267]">
-              <Award size={20} />
-            </div>
-            <div>
-              <p className="text-xs font-semibold text-gray-900">Best sellers</p>
-              <Link href="/best-sellers" className="text-[11px] text-gray-500 hover:text-[#C86267] flex items-center gap-0.5">
-                Shop Now <ArrowRight size={10} />
-              </Link>
-            </div>
-          </div>
+
 
           <div className="flex items-center gap-3 pt-2 md:pt-0 md:px-2">
             <div className="p-2 bg-pink-50 rounded-lg text-[#C86267]">

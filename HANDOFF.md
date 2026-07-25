@@ -53,10 +53,13 @@ matching `staff/{uid}` doc with `role: "Admin"`, `active: true`, created via Fir
   a placeholder, swap anytime via Admin → Settings → Colors & Branding). `formatPrice()` in
   `src/lib/utils.ts` was also fixed from a hardcoded `$` to `GH₵` — the rest of the app (price
   filters, Paystack `currency: "GHS"`) already assumed Ghana Cedis; that one spot didn't.
+  Additionally, the original "Occasions" grouping and the "Best Sellers" computed page were removed 
+  entirely per client request to simplify navigation. 
+- **Product Cards**: Overhauled to show full descriptions (no text truncation), and allow inline 
+  quantity adjustments and Add-to-Cart actions without requiring users to click through to a separate 
+  Product Detail page. This replaces the old `MotionLink` wrapper approach.
 - **Categories & catalog** (`src/lib/products.ts`): `for-him` / `for-her` / `curated-packages` /
-  `kids` / `gift-cards`. **Best Sellers is deliberately not a category** — it's `/best-sellers`,
-  a computed view over `getTopSellers()` (real order data, `src/lib/top-sellers.ts`), so it can't
-  go stale. `ProductArt.tsx` has new hand-drawn SVG illustrations per category (no real product
+  `kids` / `gift-cards`. `ProductArt.tsx` has new hand-drawn SVG illustrations per category (no real product
   photography yet, same "no stock art" design philosophy as before).
 - **Gift-card messages**: gated on `product.category === "gift-cards"`
   (`isGiftCardCategory()` in `products.ts`). `ProductDetail.tsx` shows a "write a message" (100
@@ -108,11 +111,7 @@ matching `staff/{uid}` doc with `role: "Admin"`, `active: true`, created via Fir
   none of it should be statically prerendered. Without this, `next build` tries to evaluate the
   Firebase client SDK at build time against whatever `NEXT_PUBLIC_FIREBASE_*` is set, which fails
   outright without a real project.
-- **Footer** now actually reads `settings.storePhone`/`settings.storeEmail` (those fields already
-  existed in the schema but were hardcoded over in the Helyz Scents version) and a new
-  `settings.socialLinks` (Instagram/TikTok/Snapchat) — no icons for TikTok/Snapchat exist in
-  lucide-react, so all three use a generic `AtSign` icon with a text label instead of guessing at
-  a brand icon that might not exist in this Next/lucide version.
+  existed in the schema but were hardcoded over in the Helyz Scents version). It also supports functional social links for Instagram, TikTok, Snapchat, and WhatsApp, which have been wired up directly in `StoreSettings` and linked in the footer.
 
 ## Known gaps (honest, prioritized)
 

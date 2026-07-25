@@ -7,7 +7,6 @@ const TONES: Record<string, string> = {
   "curated-packages": "from-amber-500/15 via-sand-100 to-sand-200",
   kids: "from-sunset-500/20 via-sand-100 to-sand-300",
   "gift-cards": "from-amber-400/20 via-sand-100 to-sand-200",
-  "best-sellers": "from-sunset-500/15 via-sand-100 to-sand-200",
 };
 
 function ForHimArt() {
@@ -118,7 +117,6 @@ const ART: Record<string, () => ReactElement> = {
   "curated-packages": CuratedPackageArt,
   kids: KidsArt,
   "gift-cards": GiftCardArt,
-  "best-sellers": BestSellerArt,
 };
 
 export function ProductArt({
@@ -128,7 +126,7 @@ export function ProductArt({
   category: string;
   className?: string;
 }) {
-  const Art = ART[category] ?? BestSellerArt;
+  const Art = ART[category] ?? CuratedPackageArt;
   const tone = TONES[category] ?? "from-amber-400/20 via-sand-100 to-sand-200";
 
   return (
