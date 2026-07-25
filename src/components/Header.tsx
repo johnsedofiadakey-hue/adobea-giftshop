@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { ChevronDown, Search, User, ShoppingBag, Gift } from "lucide-react";
 import { useCart } from "@/lib/cart-context";
-import { Logo } from "@/components/Logo";
 
 export function Header() {
   const { itemCount, setCartOpen } = useCart();
@@ -13,13 +12,18 @@ export function Header() {
       <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
         
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-3 px-2 py-2 transition-transform hover:scale-[1.02]">
-          <Logo className="h-16 w-auto" />
-          <span className="font-display leading-tight hidden md:block">
-            <span className="block whitespace-nowrap text-base font-bold tracking-tight text-ink-900">
-              EA_DUBEA&apos;S GIFT HUB
+        <Link href="/" className="flex items-center gap-2 transition-transform hover:scale-[1.02]">
+          <div className="flex items-center text-[#C86267]">
+            <Gift size={28} />
+          </div>
+          <div className="flex flex-col">
+            <span className="font-serif text-2xl tracking-wide text-ink-900 font-medium leading-none mt-1">
+              ea_dubea&apos;s
             </span>
-          </span>
+            <span className="text-[10px] tracking-[0.25em] text-ink-500 uppercase mt-0.5">
+              GIFTHUB
+            </span>
+          </div>
         </Link>
 
         {/* Nav Links */}
